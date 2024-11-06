@@ -11,6 +11,7 @@ import ConfirmAccountPage from "./pages/auth/ConfirmAccountPage";
 import RequestNewCodePage from "./pages/auth/RequestNewCodePage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import NewPasswordPage from "./pages/auth/NewPasswordPage";
+import ProjectTeamPage from "./pages/projects/ProjectTeamPage";
 
 export default function Router() {
   return (
@@ -24,6 +25,10 @@ export default function Router() {
             element={<EditProjectPage />}
           />
           <Route path="/projects/:projectId" element={<DetailProjectPage />} />
+          <Route
+            path="/projects/:projectId/team"
+            element={<ProjectTeamPage />}
+          />
         </Route>
 
         <Route element={<AuthLayout />}>
