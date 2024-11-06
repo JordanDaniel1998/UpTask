@@ -9,6 +9,7 @@ export interface IProject extends Document {
   // Document -> Permite incluir los campos y métodos proporcionados por MongoDB a los documentos como (_id, createdAt, updatedAt, etc.)
   tasks: PopulatedDoc<ITask & Document>[];
   manager: PopulatedDoc<IUser & Document>;
+  team: PopulatedDoc<IUser & Document>[];
 }
 
 const ProjectSchema: Schema = new Schema(
@@ -38,6 +39,12 @@ const ProjectSchema: Schema = new Schema(
       type: Types.ObjectId,
       ref: "User",
     },
+    team: [
+      {
+        type: Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true } // Agrega los campos de createdAt y UpdatedAt
 );

@@ -26,6 +26,7 @@ export class ProjectController {
               $in: request.user.id,
             },
           },
+          { team: { $in: request.user.id } },
         ],
       });
       return response.status(200).json(projects);
@@ -46,7 +47,10 @@ export class ProjectController {
         });
       }
 
-      if (project.manager.toString() !== request.user.id.toString()) {
+      if (
+        project.manager.toString() !== request.user.id.toString() &&
+        !project.team.includes(request.user.id)
+      ) {
         return response.status(404).json({
           error: "Acción no válida!",
         });

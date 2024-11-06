@@ -117,7 +117,7 @@ export class AuthController {
       return response.send(token);
     } catch (error) {
       return response.status(500).json({
-        error: "Hubo un error al crear la cuenta!",
+        error: "Hubo un error en la cuenta!",
       });
     }
   };

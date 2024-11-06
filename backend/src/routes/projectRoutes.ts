@@ -6,6 +6,7 @@ import { TaskController } from "../controllers/TaskController";
 import { projectExists } from "../middleware/project";
 import { taskBelongsToProject, taskExists } from "../middleware/task";
 import { authenticate } from "../middleware/auth";
+import { TeamController } from "../controllers/TeamController";
 
 const router = Router();
 
@@ -141,6 +142,49 @@ router.patch(
   taskExists,
   taskBelongsToProject,
   TaskController.updateStatusTask
+);
+
+// Team
+
+router.post(
+  "/:projectId/team/find",
+  authenticate,
+  body("email")
+    .notEmpty()
+    .withMessage("Email del Usuario es obligatorio!")
+    .isEmail()
+    .withMessage("E-mail no válido!"),
+  handleInputErrors,
+  TeamController.findMemberByEmail
+);
+
+router.get(
+  "/:projectId/team",
+  param("projectId").isMongoId().withMessage("Id no válido"),
+  authenticate,
+  projectExists,
+  handleInputErrors,
+  TeamController.getTeamByProject
+);
+
+router.post(
+  "/:projectId/team",
+  authenticate,
+  param("projectId").isMongoId().withMessage("Id no válido"),
+  body("id").isMongoId().withMessage("Id no válido"),
+  handleInputErrors,
+  projectExists,
+  TeamController.addMemberById
+);
+
+router.delete(
+  "/:projectId/team/:userId",
+  authenticate,
+  param("projectId").isMongoId().withMessage("Id no válido"),
+  param("userId").isMongoId().withMessage("Id no válido"),
+  handleInputErrors,
+  projectExists,
+  TeamController.removeMemberById
 );
 
 export default router;
