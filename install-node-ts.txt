@@ -1,0 +1,37 @@
+------------------------------ BACKEND - NODE JS Y TYPESCRIPT ----------------------------------
+
+- npm init --y: Crea el proyecto de manera directa
+- npm i express: Instala las dependencias para usar express en producción
+- npm i -D @types/express: Instalas las dependencias de desarrollo para usar expres con ts en local
+- npm i -D nodemon: Dependencia para reiniciar el servidor ante cualquier cambio
+- npm i -D ts-node: Dependencia para ejecutar typescrit por medio de node
+- npm i -D typescript: Dependencia para usar typescript en nuestro proyecto
+- npm i colors: Dependencia para poder colorear los mensajes en consola
+- npm i moongose: Dependencia para usar el ODM(Object Document Mapping) en Node.js
+- npm i dotenv: Dependencia para usar las variables de entorno
+- npm i expres-validator: Dependencia para validar campos a traves del request
+- npm i cors: Permite desarrollar en producción
+- npm i -D @types/cors: Permite desarrollar en local
+- npm i morgan: Útil para tener un registro en tiempo real de las solicitudes y respuestas de tu aplicación, lo que facilita la identificación de problemas y el análisis del tráfico.
+- npm i -D @types/morgan: Soporte para desarrollo local con typescript
+- npm i bcrypt: Permite encriptar las contraseñas
+- npm i -D @types/bcrypt: Permite el soporte de encriptación con typescript
+- npm i nodemailer: Permite enviar emails
+- npm i -D @types/nodemailer: Permite el soporte de emails con typescript
+- npm i jsonwebtoken: Permite generar y comprobar el jsonwebtoken
+- npm i -D @types/jsonwebtoken: Permite el soporte de jsonwebtoken con typescript
+
+------------------------------ FRONTEND - REACT JS Y TYPESCRIPT ----------------------------------
+
+- npm create vite@latest: Crear un proyecto react con vite
+- npm i -D tailwindcss postcss autoprefixer: Instalar tailwindcss y los autocompletados al momento de escribir código
+- npx tailwindcss init -p: Crea el archivo para indicar en que rutas debe buscar los estilos de tailwindcss
+- npm i react-router-dom: permite manejar la navegación y las rutas en una aplicación React
+- npm i @headlessui/react @heroicons/react: Permite trabajar con una librería de componentes ya construidos con tailwindcss y con heroicons
+- npm i react-hook-form: Permite construir formularios de una manera mucha más rápida, nos incluye validaciones entres otras cosas.
+- npm i zod: Permite definir esquemas para las respuestas a una API e inferir los tipos de esquemas
+- npm i axios: Permite manejar las consultas a una API
+- npm i react-toastify: Permite trabajar con una librería de componentes ya construidos para las notificaciones
+- npm i @tanstack/react-query: Es útil para manejar datos asíncronos como los que se obtienen de una API. Introduce una gran cantidad de conceptos nuevos, pero hay dos que son los más importantes: Queries (Utilizado para obtener datos de un servidor o una API - GET), Mutations (Utilizado para crear / actualizar / eliminar datos en el servidor - POST / PUT / PATCH / DELETE)
+- npm i @tanstack/react-query-devtools: Las Devtools de React Query permiten inspeccionar el estado de las consultas, el caché, los errores, los estados de carga, entre otros aspectos, directamente desde una interfaz gráfica en el navegador.
+- npm i @chakra-ui/pin-input: Permite usar componentes de chakra-ui

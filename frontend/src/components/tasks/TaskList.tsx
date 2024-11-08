@@ -4,6 +4,7 @@ import { statusTranslations } from "@/locales/es";
 
 type TaskListProps = {
   tasks: Task[];
+  canRealizeActions: boolean;
 };
 
 type GroupedTasked = {
@@ -27,7 +28,7 @@ const statusColors: { [key: string]: string } = {
   completed: "border-t-emerald-500",
 };
 
-export default function TaskList({ tasks }: TaskListProps) {
+export default function TaskList({ tasks, canRealizeActions }: TaskListProps) {
   const groupedTasks = tasks.reduce((acc, task) => {
     // Obtenemos todos los objetos con un estado en específico
     let currentGroup = acc[task.status] ? [...acc[task.status]] : [];
@@ -52,7 +53,13 @@ export default function TaskList({ tasks }: TaskListProps) {
               {tasks.length === 0 ? (
                 <li className="text-gray-500 text-center">No Hay tareas</li>
               ) : (
-                tasks.map((task) => <TaskCard key={task._id} task={task} />)
+                tasks.map((task) => (
+                  <TaskCard
+                    key={task._id}
+                    task={task}
+                    canRealizeActions={canRealizeActions}
+                  />
+                ))
               )}
             </ul>
           </div>

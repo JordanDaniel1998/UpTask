@@ -94,8 +94,8 @@ export default function EditTaskModal({ data, taskId }: EditTaskModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPanel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-16">
-                <DialogTitle as="h3" className="font-black text-4xl  my-5">
+              <DialogPanel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-8 sm:p-10 lg:p-16 flex flex-col gap-2">
+                <DialogTitle as="h3" className="font-black text-4xl my-5">
                   Editar Tarea
                 </DialogTitle>
 
@@ -105,7 +105,7 @@ export default function EditTaskModal({ data, taskId }: EditTaskModalProps) {
                 </p>
 
                 <form
-                  className="mt-10 space-y-3"
+                  className="mt-5 space-y-8"
                   onSubmit={handleSubmit(handleSubmitForm)}
                   noValidate
                 >

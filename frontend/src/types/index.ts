@@ -7,6 +7,7 @@ export const ProjectSchema = z.object({
   projectName: z.string(),
   clientName: z.string(),
   description: z.string(),
+  manager: z.string(),
 });
 
 export const DashboardProjectSchema = z.array(
@@ -15,6 +16,7 @@ export const DashboardProjectSchema = z.array(
     projectName: true,
     clientName: true,
     description: true,
+    manager: true,
   })
 );
 
@@ -26,31 +28,6 @@ export type ProjectFormData = Pick<
   Project,
   "projectName" | "clientName" | "description"
 >;
-
-/* Task */
-
-export const TaskStatusSchema = z.enum([
-  "pending",
-  "onHold",
-  "inProgress",
-  "underReview",
-  "completed",
-]);
-
-export type TaskStatus = z.infer<typeof TaskStatusSchema>;
-
-export const TaskSchema = z.object({
-  _id: z.string(),
-  name: z.string(),
-  description: z.string(),
-  project: z.string(),
-  status: TaskStatusSchema,
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
-
-export type Task = z.infer<typeof TaskSchema>;
-export type TaskFormData = Pick<Task, "name" | "description">;
 
 /* Auth & Users */
 
@@ -99,3 +76,35 @@ export const TeamMembersSchema = z.array(TeamMemberSchema);
 export type TeamMembers = z.infer<typeof TeamMembersSchema>;
 export type Team = z.infer<typeof TeamMemberSchema>;
 export type TeamMemberForm = Pick<Team, "email">;
+
+/* Task */
+
+export const TaskStatusSchema = z.enum([
+  "pending",
+  "onHold",
+  "inProgress",
+  "underReview",
+  "completed",
+]);
+
+export type TaskStatus = z.infer<typeof TaskStatusSchema>;
+
+export const TaskSchema = z.object({
+  _id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  project: z.string(),
+  status: TaskStatusSchema,
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  completedBy: z.array(
+    z.object({
+      _id: z.string(),
+      user: UserSchema,
+      status: TaskStatusSchema,
+    })
+  ),
+});
+
+export type Task = z.infer<typeof TaskSchema>;
+export type TaskFormData = Pick<Task, "name" | "description">;

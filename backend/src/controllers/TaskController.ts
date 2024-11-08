@@ -32,7 +32,11 @@ export class TaskController {
 
   static getTasksById = async (request: Request, response: Response) => {
     try {
-      return response.json(request.task);
+      const task = await Task.findById(request.task.id).populate({
+        path: "completedBy.user",
+        select: "id name email",
+      });
+      return response.json(task);
     } catch (error) {
       return response.status(500).json({
         error: "Hubo un error!",
@@ -79,6 +83,13 @@ export class TaskController {
 
       // Eliminar la referencia de la tarea en el proyecto al cual pertenece
       request.task.status = status;
+
+      const data = {
+        user: request.user.id,
+        status: status,
+      };
+
+      request.task.completedBy.push(data);
 
       await request.task.save();
 

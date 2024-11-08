@@ -4,7 +4,11 @@ import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
 import { TaskController } from "../controllers/TaskController";
 import { projectExists } from "../middleware/project";
-import { taskBelongsToProject, taskExists } from "../middleware/task";
+import {
+  hasAuthorization,
+  taskBelongsToProject,
+  taskExists,
+} from "../middleware/task";
 import { authenticate } from "../middleware/auth";
 import { TeamController } from "../controllers/TeamController";
 
@@ -77,6 +81,7 @@ router.post(
     .withMessage("Descripción de la Tarea es obligatoria!"),
   handleInputErrors,
   projectExists,
+  hasAuthorization,
   TaskController.createTask
 );
 
@@ -114,6 +119,7 @@ router.put(
   projectExists,
   taskExists,
   taskBelongsToProject,
+  hasAuthorization,
   TaskController.updateTask
 );
 
@@ -126,6 +132,7 @@ router.delete(
   projectExists,
   taskExists,
   taskBelongsToProject,
+  hasAuthorization,
   TaskController.deleteTask
 );
 

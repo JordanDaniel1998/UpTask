@@ -98,12 +98,12 @@ export default function DetailTaskModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-16">
+                <DialogPanel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-8 sm:p-10 lg:p-16 flex flex-col gap-2">
                   <p className="text-sm text-slate-400">
                     Agregado el: {formatDate(data?.createdAt)}
                   </p>
                   <p className="text-sm text-slate-400">
-                    Última actualización:{" "}
+                    Última actualización: {formatDate(data?.updatedAt)}
                   </p>
                   <DialogTitle
                     as="h3"
@@ -114,6 +114,26 @@ export default function DetailTaskModal() {
                   <p className="text-lg text-slate-500 mb-2">
                     Descripción: {data?.description}
                   </p>
+                  {data?.completedBy && (
+                    <ul className="bg-fuchsia-100 p-4 rounded-md list-decimal">
+                      <p className="text-2xl text-slate-500 mb-2">
+                        Historial de cambios
+                      </p>
+                      {data.completedBy.map((item) => (
+                        <li
+                          key={item._id}
+                          className="font-normal text-slate-600 ml-5 md:ml-8 whitespace-normal"
+                        >
+                          <span className="font-bold">
+                            {statusTranslations[item.status]}
+                          </span>{" "}
+                          por:{" "}
+                          <span className="font-bold">{item.user.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   <div className="mt-5 space-y-3">
                     <label className="font-bold" htmlFor="status">
                       Estado Actual

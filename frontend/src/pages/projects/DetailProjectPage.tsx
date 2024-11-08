@@ -6,8 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import EditTaskData from "@/components/tasks/EditTaskData";
 import DetailTaskModal from "@/components/tasks/DetailTaskModal";
+import { useAuth } from "@/hooks/useAuth";
+import { isManager } from "@/utils/policies";
+import { useMemo } from "react";
 
 export default function DetailProjectPage() {
+  const { data: user } = useAuth();
   const navigate = useNavigate();
   const params = useParams();
   const projectId = params.projectId!;
@@ -18,23 +22,32 @@ export default function DetailProjectPage() {
     retry: false,
   });
 
+  const canRealizeActions = useMemo(
+    () => data?.manager == user?._id,
+    [data, user]
+  );
+
   if (isError) return <Navigate to="/404" />;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
-      <section className="flex flex-col gap-10 w-full mx-auto">
-        {isLoading ? (
-          <div className="flex justify-center items-center">
-            <Spinner />
-          </div>
-        ) : (
-          <>
-            <div className="flex flex-col gap-3">
-              <h1 className="text-5xl font-black">{data.projectName}</h1>
-              <p className="text-2xl font-light text-gray-500">
-                {data.description}
-              </p>
+      {data && user && (
+        <section className="flex flex-col gap-10 w-full mx-auto">
+          <div className="flex flex-col gap-3">
+            <h1 className="text-5xl font-black">{data.projectName}</h1>
+            <p className="text-2xl font-light text-gray-500">
+              {data.description}
+            </p>
 
+            {isManager(data.manager, user._id) && (
               <div className="flex flex-col text-center gap-3 md:flex-row">
                 <button
                   type="button"
@@ -51,16 +64,16 @@ export default function DetailProjectPage() {
                   Colaboradores
                 </Link>
               </div>
-            </div>
+            )}
+          </div>
 
-            <TaskList tasks={data.tasks} />
+          <TaskList tasks={data.tasks} canRealizeActions={canRealizeActions} />
 
-            <AddTaskModal />
-            <EditTaskData />
-            <DetailTaskModal />
-          </>
-        )}
-      </section>
+          <AddTaskModal />
+          <EditTaskData />
+          <DetailTaskModal />
+        </section>
+      )}
     </>
   );
 }

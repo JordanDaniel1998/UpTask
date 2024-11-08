@@ -46,3 +46,17 @@ export function taskBelongsToProject(
   }
   next();
 }
+
+export function hasAuthorization(
+  request: Request,
+  response: Response,
+  next: NextFunction
+) {
+  // Validar que la tarea que solicito pertenezca al proyecto
+  if (request.user.id.toString() !== request.project.manager.toString()) {
+    return response.status(400).json({
+      error: "Acción no válida!",
+    });
+  }
+  next();
+}
