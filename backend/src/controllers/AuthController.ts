@@ -65,7 +65,7 @@ export class AuthController {
       return response.send("Cuenta Confirmada Correctamente");
     } catch (error) {
       return response.status(500).json({
-        error: "Hubo un error al crear la cuenta!",
+        error: "Hubo un error al confirmar la cuenta!",
       });
     }
   };
@@ -160,7 +160,7 @@ export class AuthController {
       return response.send("Se ah enviado un nuevo token a tu email");
     } catch (error) {
       return response.status(500).json({
-        error: "Hubo un error al crear la cuenta!",
+        error: "Hubo un error al confirmar la cuenta!",
       });
     }
   };
@@ -193,7 +193,7 @@ export class AuthController {
       return response.send("Revisa tu email y sigue las instrucciones");
     } catch (error) {
       return response.status(500).json({
-        error: "Hubo un error al crear la cuenta!",
+        error: "Hubo un error en la cuenta!",
       });
     }
   };
@@ -212,7 +212,7 @@ export class AuthController {
       return response.send("Token válido, ingresa tu nueva contraseña");
     } catch (error) {
       return response.status(500).json({
-        error: "Hubo un error al crear la cuenta!",
+        error: "Hubo un error en la cuenta!",
       });
     }
   };
@@ -241,7 +241,7 @@ export class AuthController {
       return response.send("Credenciales actualizadas");
     } catch (error) {
       return response.status(500).json({
-        error: "Hubo un error al crear la cuenta!",
+        error: "Hubo un error en la cuenta!",
       });
     }
   };
@@ -251,7 +251,56 @@ export class AuthController {
       return response.json(request.user);
     } catch (error) {
       return response.status(500).json({
-        error: "Hubo un error al crear la cuenta!",
+        error: "Hubo un error en la cuenta!",
+      });
+    }
+  };
+
+  static updateProfile = async (request: Request, response: Response) => {
+    try {
+      const { name, email } = request.body;
+
+      const user = await User.findOne({ email });
+      if (user && user.id.toString() !== request.user.id.toString()) {
+        return response.status(409).json({
+          error: "El email ya existe!",
+        });
+      }
+      request.user.name = name;
+      request.user.email = email;
+      await request.user.save();
+
+      return response.send("Perfil actualizado correctamente");
+    } catch (error) {
+      return response.status(500).json({
+        error: "Hubo un error!",
+      });
+    }
+  };
+
+  static updateProfilePassword = async (
+    request: Request,
+    response: Response
+  ) => {
+    const { current_password, password } = request.body;
+    const user = await User.findById(request.user.id);
+    const isPasswordCorrect = await checkPassword(
+      current_password,
+      user.password
+    );
+    if (!isPasswordCorrect) {
+      return response.status(401).json({
+        error: "La contraseña actual es incorrecta!",
+      });
+    }
+
+    try {
+      user.password = await hashPassword(password);
+      await user.save();
+      return response.send("Credenciales actualizadas");
+    } catch (error) {
+      return response.status(500).json({
+        error: "Hubo un error en la cuenta!",
       });
     }
   };

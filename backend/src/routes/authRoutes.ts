@@ -111,4 +111,48 @@ router.post(
 );
 
 router.get("/user", authenticate, AuthController.user);
+
+// Profile
+
+router.put(
+  "/profile",
+  authenticate,
+  body("name").notEmpty().withMessage("Nombre del Usuario es obligatorio!"),
+  body("email")
+    .notEmpty()
+    .withMessage("Email del Usuario es obligatorio!")
+    .isEmail()
+    .withMessage("E-mail no válido!"),
+  handleInputErrors,
+  AuthController.updateProfile
+);
+
+router.put(
+  "/update-password",
+  authenticate,
+  body("current_password")
+    .notEmpty()
+    .withMessage("La contraseña actual es obligatoria!")
+    .isLength({ min: 8 })
+    .withMessage("La contraseña es muy corta, mínimo 8 carácteres!"),
+  body("password")
+    .notEmpty()
+    .withMessage("La contraseña es obligatoria!")
+    .isLength({ min: 8 })
+    .withMessage("La contraseña es muy corta, mínimo 8 carácteres!"),
+  body("password_confirmation")
+    .notEmpty()
+    .withMessage("La contraseña es obligatoria!")
+    .isLength({ min: 8 })
+    .withMessage("La contraseña es muy corta, mínimo 8 carácteres!")
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Las contraseñas no coinciden!");
+      }
+      return true;
+    }),
+  handleInputErrors,
+  AuthController.updateProfilePassword
+);
+
 export default router;

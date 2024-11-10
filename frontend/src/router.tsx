@@ -12,6 +12,9 @@ import RequestNewCodePage from "./pages/auth/RequestNewCodePage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import NewPasswordPage from "./pages/auth/NewPasswordPage";
 import ProjectTeamPage from "./pages/projects/ProjectTeamPage";
+import ProfilePage from "./pages/profiles/ProfilePage";
+import ChangePassword from "./pages/profiles/ChangePassword";
+import ProfileLayout from "./layouts/ProfileLayout";
 
 export default function Router() {
   return (
@@ -29,6 +32,13 @@ export default function Router() {
             path="/projects/:projectId/team"
             element={<ProjectTeamPage />}
           />
+          <Route element={<ProfileLayout />}>
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route
+              path="/profile/update-password"
+              element={<ChangePassword />}
+            />
+          </Route>
         </Route>
 
         <Route element={<AuthLayout />}>

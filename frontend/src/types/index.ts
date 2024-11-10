@@ -46,6 +46,14 @@ export type UserRegisterForm = Pick<
   "name" | "email" | "password" | "password_confirmation"
 >;
 
+export const ProfilePassword = AuthSchema.pick({
+  password: true,
+  password_confirmation: true,
+}).extend({
+  current_password: z.string(),
+});
+export type ProfilePasswordSchema = z.infer<typeof ProfilePassword>;
+
 export type ConfirmToken = Pick<Auth, "token">;
 
 export type RequestConfirmationCodeForm = Pick<Auth, "email">;
@@ -63,6 +71,7 @@ export const UserSchema = AuthSchema.pick({
 });
 
 export type User = z.infer<typeof UserSchema>;
+export type UserProfileForm = Pick<User, "name" | "email">;
 
 // Team Schema
 
@@ -76,6 +85,20 @@ export const TeamMembersSchema = z.array(TeamMemberSchema);
 export type TeamMembers = z.infer<typeof TeamMembersSchema>;
 export type Team = z.infer<typeof TeamMemberSchema>;
 export type TeamMemberForm = Pick<Team, "email">;
+
+// Notes
+
+const NoteSchema = z.object({
+  _id: z.string(),
+  content: z.string(),
+  createdBy: UserSchema,
+  task: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export type Note = z.infer<typeof NoteSchema>;
+export type NoteForm = Pick<Note, "content">;
 
 /* Task */
 
@@ -102,6 +125,11 @@ export const TaskSchema = z.object({
       _id: z.string(),
       user: UserSchema,
       status: TaskStatusSchema,
+    })
+  ),
+  notes: z.array(
+    NoteSchema.extend({
+      createdBy: UserSchema,
     })
   ),
 });

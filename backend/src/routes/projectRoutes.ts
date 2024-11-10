@@ -11,6 +11,7 @@ import {
 } from "../middleware/task";
 import { authenticate } from "../middleware/auth";
 import { TeamController } from "../controllers/TeamController";
+import { NoteController } from "../controllers/NoteController";
 
 const router = Router();
 
@@ -192,6 +193,45 @@ router.delete(
   handleInputErrors,
   projectExists,
   TeamController.removeMemberById
+);
+
+// Notes
+
+router.post(
+  "/:projectId/task/:taskId/notes",
+  authenticate,
+  param("projectId").isMongoId().withMessage("Id del proyecto no válido"),
+  param("taskId").isMongoId().withMessage("Id de la tarea no válido"),
+  body("content")
+    .notEmpty()
+    .withMessage("El contenido de la nota es obligatorio"),
+  handleInputErrors,
+  projectExists,
+  taskExists,
+  NoteController.createNote
+);
+
+router.get(
+  "/:projectId/task/:taskId/notes",
+  authenticate,
+  param("projectId").isMongoId().withMessage("Id del proyecto no válido"),
+  param("taskId").isMongoId().withMessage("Id de la tarea no válido"),
+  handleInputErrors,
+  projectExists,
+  taskExists,
+  NoteController.getNotesByTask
+);
+
+router.delete(
+  "/:projectId/task/:taskId/notes/:noteId",
+  authenticate,
+  param("projectId").isMongoId().withMessage("Id del proyecto no válido"),
+  param("taskId").isMongoId().withMessage("Id de la tarea no válido"),
+  param("noteId").isMongoId().withMessage("Id de la nota no válido"),
+  handleInputErrors,
+  projectExists,
+  taskExists,
+  NoteController.removeNoteById
 );
 
 export default router;
