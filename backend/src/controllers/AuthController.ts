@@ -304,4 +304,26 @@ export class AuthController {
       });
     }
   };
+
+  static checkProfilePassword = async (
+    request: Request,
+    response: Response
+  ) => {
+    try {
+      const { password } = request.body;
+      const user = await User.findById(request.user.id);
+      const isPasswordCorrect = await checkPassword(password, user.password);
+      if (!isPasswordCorrect) {
+        return response.status(401).json({
+          error: "La contraseña actual es incorrecta!",
+        });
+      }
+
+      return response.send("SS");
+    } catch (error) {
+      return response.status(500).json({
+        error: "Hubo un error en la cuenta!",
+      });
+    }
+  };
 }

@@ -15,11 +15,13 @@ import ProjectTeamPage from "./pages/projects/ProjectTeamPage";
 import ProfilePage from "./pages/profiles/ProfilePage";
 import ChangePassword from "./pages/profiles/ChangePassword";
 import ProfileLayout from "./layouts/ProfileLayout";
+import NotFound from "./pages/404/NotFound";
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
+        // Usuario autenticado
         <Route element={<AppLayout />}>
           <Route path="/" element={<DashboardPage />} index />
           <Route path="/projects/create" element={<CreateProjectPage />} />
@@ -40,7 +42,7 @@ export default function Router() {
             />
           </Route>
         </Route>
-
+        // Usuario no autenticado
         <Route element={<AuthLayout />}>
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/auth/register" element={<RegisterPage />} />
@@ -53,8 +55,11 @@ export default function Router() {
             path="/auth/forgot-password"
             element={<ForgotPasswordPage />}
           />
-
           <Route path="/auth/new-password" element={<NewPasswordPage />} />
+        </Route>
+        // Error
+        <Route element={<AuthLayout />}>
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

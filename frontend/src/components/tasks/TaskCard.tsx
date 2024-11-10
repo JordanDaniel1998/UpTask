@@ -12,6 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTask } from "@/services/TaskAPI";
 import { toast } from "react-toastify";
+import { useDraggable } from "@dnd-kit/core";
 
 type TaskCardProps = {
   task: Task;
@@ -19,6 +20,9 @@ type TaskCardProps = {
 };
 
 export default function TaskCard({ task, canRealizeActions }: TaskCardProps) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: task._id,
+  });
   const navigate = useNavigate();
   const params = useParams();
   const projectId = params.projectId!;
@@ -35,9 +39,22 @@ export default function TaskCard({ task, canRealizeActions }: TaskCardProps) {
     },
   });
 
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        touchAction: "none",
+      }
+    : undefined;
+
   return (
     <>
-      <li className="p-5 bg-white border border-slate-300 flex justify-between gap-3">
+      <li
+        className="p-5 bg-white border border-slate-300 flex justify-between gap-3"
+        style={style}
+        ref={setNodeRef}
+        {...listeners}
+        {...attributes}
+      >
         <div className="min-w-0 flex flex-col gap-y-4">
           <button
             type="button"

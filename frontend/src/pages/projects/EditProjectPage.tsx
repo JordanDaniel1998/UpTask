@@ -1,7 +1,7 @@
 import { getProjectById } from "@/services/ProjectAPI";
 import { useQuery } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
-import EditProjectForm from "./EditProjectForm";
+import EditProjectForm from "@/components/projects/EditProjectForm";
 import Spinner from "@/components/spinners/Spinner";
 
 export default function EditProjectPage() {

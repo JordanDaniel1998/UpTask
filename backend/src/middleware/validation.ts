@@ -9,7 +9,7 @@ export const handleInputErrors = (
   let errors = validationResult(request);
   if (!errors.isEmpty()) {
     return response.status(400).json({
-      errors: errors.array(),
+      error: errors.array(),
     });
   }
   next();

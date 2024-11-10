@@ -46,6 +46,8 @@ export type UserRegisterForm = Pick<
   "name" | "email" | "password" | "password_confirmation"
 >;
 
+export type CheckPassword = Pick<Auth, "password">;
+
 export const ProfilePassword = AuthSchema.pick({
   password: true,
   password_confirmation: true,

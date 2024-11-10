@@ -35,4 +35,5 @@
 - npm i @tanstack/react-query: Es útil para manejar datos asíncronos como los que se obtienen de una API. Introduce una gran cantidad de conceptos nuevos, pero hay dos que son los más importantes: Queries (Utilizado para obtener datos de un servidor o una API - GET), Mutations (Utilizado para crear / actualizar / eliminar datos en el servidor - POST / PUT / PATCH / DELETE)
 - npm i @tanstack/react-query-devtools: Las Devtools de React Query permiten inspeccionar el estado de las consultas, el caché, los errores, los estados de carga, entre otros aspectos, directamente desde una interfaz gráfica en el navegador.
 - npm i @chakra-ui/pin-input: Permite usar componentes de chakra-ui
-- npm i @tailwindcss/forms
+- npm i @tailwindcss/forms: Permite usar los diseños de tailwindcss en formularios
+- npm install @dnd-kit/core: Permite crear componentes para draggable y droppable

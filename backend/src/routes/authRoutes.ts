@@ -155,4 +155,16 @@ router.put(
   AuthController.updateProfilePassword
 );
 
+router.post(
+  "/check-password",
+  authenticate,
+  body("password")
+    .notEmpty()
+    .withMessage("La contraseña es obligatoria!")
+    .isLength({ min: 8 })
+    .withMessage("La contraseña es muy corta, mínimo 8 carácteres!"),
+  handleInputErrors,
+  AuthController.checkProfilePassword
+);
+
 export default router;
